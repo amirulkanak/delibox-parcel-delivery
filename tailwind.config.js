@@ -1,24 +1,27 @@
 export default {
+  darkMode: ['class'],
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
-      // Custom media queries screen size
       screens: {
         xs: '340px',
         tab: '834px',
         pc: '1320px',
       },
-      // Custom font family array, comma separated
       fontFamily: {
         cabin: ['Cabin', 'serif'],
         outfit: ['Outfit', 'serif'],
       },
-      // Custom colors
       colors: {
-        'text-clr-primary': '#003973',
+        'clr-primary-text': '#003973',
         'clr-primary': '#FFD84F',
+      },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
       },
     },
   },
-  plugins: [],
+  plugins: [import('tailwindcss-animate')],
 };
