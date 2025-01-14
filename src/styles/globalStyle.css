@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Outfit:wght@100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Development Purpose only */
+.kanak {
+  border: 1px solid blue;
+}
+/* ------------------------- */
+
+@layer components {
+  .max-width-wrapper {
+    @apply max-w-[82.5rem] w-full mx-auto pc:px-0 px-4;
+  }
+}
+
+@layer utilities {
+  body {
+    @apply font-cabin;
+  }
+}
