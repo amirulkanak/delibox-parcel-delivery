@@ -13,14 +13,13 @@ import {
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Bell, PackageOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
-const user = {
-  name: 'John Doe',
-};
+import useAuth from '@/hooks/useAuth';
+import { useToast } from '@/hooks/use-toast';
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(!!user);
   const [scrolled, setScrolled] = useState(false);
+  const { user, logOut } = useAuth();
+  const { toast } = useToast();
   const controls = useAnimation();
 
   useEffect(() => {
@@ -39,6 +38,14 @@ const Navbar = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [controls]);
+
+  const handleLogout = () => {
+    logOut();
+    toast({
+      title: 'Logout Successful',
+      description: 'See you soon!',
+    });
+  };
 
   return (
     <motion.div
@@ -68,16 +75,13 @@ const Navbar = () => {
           <Bell size={20} />
 
           {/* User Section */}
-          {isLoggedIn ? (
+          {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Avatar className="cursor-pointer">
-                  <AvatarImage
-                    src={user.profilePicture}
-                    alt="Profile Picture"
-                  />
+                  <AvatarImage src={user.photoURL} alt="Profile Picture" />
                   <AvatarFallback className="bg-transparent border border-white">
-                    {user.name[0]}
+                    {user?.displayName[0]}
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
@@ -85,7 +89,7 @@ const Navbar = () => {
                 align="end"
                 className="w-48 text-clr-primary-text">
                 <DropdownMenuLabel className="text-slate-500 text-md">
-                  {user.name}
+                  {user?.displayName}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
@@ -95,7 +99,7 @@ const Navbar = () => {
                   <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => setIsLoggedIn(false)}>
+                <DropdownMenuItem onClick={handleLogout}>
                   Logout
                   <DropdownMenuShortcut>⌘L</DropdownMenuShortcut>
                 </DropdownMenuItem>

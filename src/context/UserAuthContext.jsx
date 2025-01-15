@@ -10,7 +10,7 @@ import {
   sendPasswordResetEmail,
   onAuthStateChanged,
 } from 'firebase/auth';
-import axios from 'axios';
+// import axios from 'axios';
 
 // Create a Auth Context
 export const UserAuthContext = createContext();
