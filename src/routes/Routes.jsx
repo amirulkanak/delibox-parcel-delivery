@@ -1,7 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom';
-import MainLayout from '../layouts/MainLayout';
-import HomePage from '../pages/HomePage';
-import NotFoundPage from '../pages/NotFoundPage';
+import MainLayout from '@/layouts/MainLayout';
+
+import NotFoundPage from '@/pages/NotFoundPage';
+import HomePage from '@/pages/Home/HomePage';
+import LoginPage from '@/pages/Auth/LoginPage';
+import ForgetPasswordPage from '@/pages/Auth/ForgetPasswordPage';
+import Signup from '@/pages/Auth/SignupPage';
 
 const routes = createBrowserRouter([
   {
@@ -11,6 +15,18 @@ const routes = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: '/login',
+        element: <LoginPage />,
+      },
+      {
+        path: '/forgot-password',
+        element: <ForgetPasswordPage />,
+      },
+      {
+        path: '/register',
+        element: <Signup />,
       },
     ],
   },
