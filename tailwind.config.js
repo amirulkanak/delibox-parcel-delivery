@@ -14,6 +14,8 @@ export default {
       },
       colors: {
         'clr-primary-text': '#003973',
+        'clr-primary2': '#003973',
+        'clr-secondary-text': '#002c5f',
         'clr-primary': '#FFD84F',
       },
       borderRadius: {

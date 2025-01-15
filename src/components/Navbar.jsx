@@ -25,7 +25,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
+      if (window.scrollY > 20) {
         controls.start({ y: 10 });
         setScrolled(true);
       } else {
@@ -45,8 +45,9 @@ const Navbar = () => {
       initial={{ y: 10 }}
       animate={controls}
       transition={{ duration: 0.5 }}
-      className={`fixed w-full ${scrolled ? 'top-1' : 'top-5'}`}>
-      <nav className="max-width-wrapper rounded-[0.5rem] text-white h-[5.6875rem] px-5 bg-gradient-to-r from-clr-primary-text from-75% to-[#636C3F] to-100% flex items-center justify-between">
+      className={`fixed w-full ${scrolled ? 'top-1' : 'top-5'}`}
+      style={{ zIndex: 50 }}>
+      <nav className="max-width-wrapper z-50 rounded-[0.5rem] text-white h-[5.6875rem] px-5 bg-gradient-to-r from-clr-primary-text from-75% to-[#636C3F] to-100% flex items-center justify-between">
         {/* Logo and Website Name */}
         <div className="flex items-center space-x-4">
           <h1 className="text-4xl font-bold font-outfit bg-gradient-to-r text-transparent bg-clip-text from-white to-yellow-500">
@@ -104,8 +105,8 @@ const Navbar = () => {
             <Button
               size="lg"
               className="bg-clr-primary text-clr-primary-text text-lg font-bold"
-              onClick={() => alert('Navigate to login')}>
-              Login
+              asChild>
+              <Link to={'/login'}>Login</Link>
             </Button>
           )}
         </div>

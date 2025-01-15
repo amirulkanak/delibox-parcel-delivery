@@ -3,9 +3,9 @@ import MainLayout from '@/layouts/MainLayout';
 
 import NotFoundPage from '@/pages/NotFoundPage';
 import HomePage from '@/pages/Home/HomePage';
-import LoginPage from '@/pages/Auth/LoginPage';
-import ForgetPasswordPage from '@/pages/Auth/ForgetPasswordPage';
-import Signup from '@/pages/Auth/SignupPage';
+import LoginPage from '@/pages/Auth/Login/LoginPage';
+import ForgetPasswordPage from '@/pages/Auth/ForgetPassword/ForgetPasswordPage';
+import Signup from '@/pages/Auth/Signup/SignupPage';
 
 const routes = createBrowserRouter([
   {
@@ -21,11 +21,11 @@ const routes = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: '/forgot-password',
+        path: '/forget-password',
         element: <ForgetPasswordPage />,
       },
       {
-        path: '/register',
+        path: '/signup',
         element: <Signup />,
       },
     ],
