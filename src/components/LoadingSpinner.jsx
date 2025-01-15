@@ -1,8 +1,13 @@
 import { LoaderPinwheel } from 'lucide-react';
 
-const LoadingSpinner = ({ size }) => {
+const LoadingSpinner = ({ size, color }) => {
   return (
-    <LoaderPinwheel size={size} strokeWidth={1.5} className="animate-spin" />
+    <LoaderPinwheel
+      size={size}
+      color={color}
+      strokeWidth={1.5}
+      className="animate-spin"
+    />
   );
 };
 
