@@ -11,13 +11,13 @@
 
 @layer components {
   .max-width-wrapper {
-    @apply max-w-[82.5rem] w-full mx-auto pc:px-0 px-4;
+    @apply container w-full mx-auto;
   }
 }
 
 @layer utilities {
   body {
-    @apply font-cabin;
+    @apply font-cabin text-clr-primary-text;
   }
 }
 
