@@ -10,13 +10,14 @@ import {
   sendPasswordResetEmail,
   onAuthStateChanged,
 } from 'firebase/auth';
+import { useAxiosPublic } from '@/hooks/axios/useAxios';
 // import axios from 'axios';
 
 // Create a Auth Context
 export const UserAuthContext = createContext();
 
 // Create a Auth Context Provider
-const UserAuthContextProvider = ({ children }) => {
+export const UserAuthContextProvider = ({ children }) => {
   // Create a state to store the user
   const [user, setUser] = useState(null);
 
@@ -25,6 +26,9 @@ const UserAuthContextProvider = ({ children }) => {
 
   // Create a state to store the loading state
   const [loading, setLoading] = useState(true);
+
+  // asios instance
+  const axiosPublic = useAxiosPublic();
 
   // Create a function to sign up a user
   const signUp = (email, password) => {
@@ -68,30 +72,20 @@ const UserAuthContextProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
 
-      // ? Jwt Token todo
-      // if (currentUser?.email) {
-      //   const user = { email: currentUser.email };
-
-      //   axios
-      //     .post(`${import.meta.env.VITE_BACKEND_API_URL}/auth/login`, user, {
-      //       withCredentials: true,
-      //     })
-      //     .then((res) => {
-      //       setLoading(false);
-      //     });
-      // } else {
-      //   axios
-      //     .post(
-      //       `${import.meta.env.VITE_BACKEND_API_URL}/auth/logout`,
-      //       {},
-      //       {
-      //         withCredentials: true,
-      //       }
-      //     )
-      //     .then((res) => {
-      //       setLoading(false);
-      //     });
-      // }
+      // Jwt Token
+      if (currentUser?.email) {
+        const user = { email: currentUser.email };
+        axiosPublic.post('/jwt/create', user).then((res) => {
+          console.log(res.data);
+          if (res.data.token) {
+            localStorage.setItem('delibox-token', res.data.token);
+            setLoading(false);
+          }
+        });
+      } else {
+        localStorage.removeItem('delibox-token');
+        setLoading(false);
+      }
 
       if (currentUser) {
         setIsAuthenticated(true);
@@ -103,7 +97,7 @@ const UserAuthContextProvider = ({ children }) => {
     });
 
     return unsubscribe;
-  }, []);
+  }, [axiosPublic]);
 
   // Create a value for the context
   const value = {
