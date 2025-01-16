@@ -13,7 +13,7 @@ const LoginForm = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [gloading, setGLoading] = useState(false);
-  const { loginWithGooglePopup, setUser, logIn } = useAuth();
+  const { loginWithGooglePopup, logIn } = useAuth();
   const { state } = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -23,7 +23,6 @@ const LoginForm = () => {
     setGLoading(true);
     loginWithGooglePopup()
       .then((result) => {
-        setUser(result.user);
         setGLoading(false);
         toast({
           title: 'Login Successful',
@@ -65,7 +64,6 @@ const LoginForm = () => {
 
     logIn(formData.email, formData.password)
       .then((result) => {
-        setUser(result.user);
         setLoading(false);
         toast({
           title: 'Login Successful',
