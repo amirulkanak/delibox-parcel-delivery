@@ -23,6 +23,9 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      backgroundImage: {
+        'hero-pattern': "url('@/assets/images/hero-bg.png')",
+      },
     },
   },
   plugins: [import('tailwindcss-animate')],

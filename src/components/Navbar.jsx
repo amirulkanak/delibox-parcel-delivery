@@ -25,10 +25,10 @@ const Navbar = () => {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
-        controls.start({ y: 10 });
+        controls.start({ y: 5 });
         setScrolled(true);
       } else {
-        controls.start({ y: 20 });
+        controls.start({ y: 5 });
         setScrolled(false);
       }
     };
