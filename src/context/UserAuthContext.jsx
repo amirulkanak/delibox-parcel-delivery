@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useRef, useState } from 'react';
 import { auth } from '../services/auth/firebase/firebase';
 import {
   createUserWithEmailAndPassword,
@@ -14,12 +14,16 @@ import { useAxiosPublic } from '@/hooks/axios/useAxios';
 // import axios from 'axios';
 
 // Create a Auth Context
-export const UserAuthContext = createContext();
+// eslint-disable-next-line react-refresh/only-export-components
+export const UserAuthContext = createContext(null);
 
 // Create a Auth Context Provider
 export const UserAuthContextProvider = ({ children }) => {
   // Create a state to store the user
   const [user, setUser] = useState(null);
+
+  // Create a state to store role
+  const [userRole, setUserRole] = useState(null);
 
   // Create a state for checking if the user is authenticated
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -29,6 +33,7 @@ export const UserAuthContextProvider = ({ children }) => {
 
   // asios instance
   const axiosPublic = useAxiosPublic();
+  const axiosPublicRef = useRef(axiosPublic);
 
   // Create a function to sign up a user
   const signUp = (email, password) => {
@@ -69,13 +74,27 @@ export const UserAuthContextProvider = ({ children }) => {
 
   // Listen for auth state changes
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+      setUserRole(null);
+
+      // Send the user email to the backend to register the user and get the role
+      if (currentUser?.email) {
+        await axiosPublicRef.current
+          .post(`/users/${currentUser.email}`, {
+            name: currentUser.displayName,
+            email: currentUser.email,
+            photo: currentUser.photoURL,
+          })
+          .then((res) => {
+            setUserRole(res.data);
+          });
+      }
 
       // Jwt Token
       if (currentUser?.email) {
         const user = { email: currentUser.email };
-        axiosPublic.post('/jwt/create', user).then((res) => {
+        await axiosPublicRef.current.post('/jwt/create', user).then((res) => {
           console.log(res.data);
           if (res.data.token) {
             localStorage.setItem('delibox-token', res.data.token);
@@ -97,17 +116,17 @@ export const UserAuthContextProvider = ({ children }) => {
     });
 
     return unsubscribe;
-  }, [axiosPublic]);
+  }, []);
 
   // Create a value for the context
   const value = {
     user,
-    setUser,
     signUp,
     logIn,
     logOut,
     loginWithGooglePopup,
     isAuthenticated,
+    userRole,
     loading,
     sendPasswordResetEmailToUser,
     updateUserProfile,
