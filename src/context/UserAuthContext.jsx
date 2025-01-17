@@ -22,9 +22,6 @@ export const UserAuthContextProvider = ({ children }) => {
   // Create a state to store the user
   const [user, setUser] = useState(null);
 
-  // Create a state to store role
-  const [userRole, setUserRole] = useState(null);
-
   // Create a state for checking if the user is authenticated
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -76,26 +73,20 @@ export const UserAuthContextProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
-      setUserRole(null);
 
       // Send the user email to the backend to register the user and get the role
       if (currentUser?.email) {
-        await axiosPublicRef.current
-          .post(`/users/${currentUser.email}`, {
-            name: currentUser.displayName,
-            email: currentUser.email,
-            photo: currentUser.photoURL,
-          })
-          .then((res) => {
-            setUserRole(res.data);
-          });
+        await axiosPublicRef.current.post(`/users/${currentUser.email}`, {
+          name: currentUser.displayName,
+          email: currentUser.email,
+          photo: currentUser.photoURL,
+        });
       }
 
       // Jwt Token
       if (currentUser?.email) {
         const user = { email: currentUser.email };
         await axiosPublicRef.current.post('/jwt/create', user).then((res) => {
-          console.log(res.data);
           if (res.data.token) {
             localStorage.setItem('delibox-token', res.data.token);
             setLoading(false);
@@ -126,7 +117,6 @@ export const UserAuthContextProvider = ({ children }) => {
     logOut,
     loginWithGooglePopup,
     isAuthenticated,
-    userRole,
     loading,
     sendPasswordResetEmailToUser,
     updateUserProfile,

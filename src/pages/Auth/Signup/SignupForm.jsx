@@ -56,7 +56,6 @@ const SignupForm = () => {
     try {
       const imageUrl = await uploadImage(slectedImage);
       const { user } = await signUp(formData.email, formData.password);
-      console.log(user);
 
       if (!user) {
         toast({
@@ -72,7 +71,7 @@ const SignupForm = () => {
         title: 'Account created successfully.',
         description: 'You are now logged in.',
       });
-      navigate('/');
+      navigate('/dashboard');
     } catch (error) {
       toast({
         variant: 'destructive',
@@ -95,7 +94,7 @@ const SignupForm = () => {
           title: 'Login Successful',
           description: `Welcome ${result.user.displayName}`,
         });
-        navigate('/');
+        navigate('/dashboard');
       })
       .catch((error) => {
         setGLoading(false);

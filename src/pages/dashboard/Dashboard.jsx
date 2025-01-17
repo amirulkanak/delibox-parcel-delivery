@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import SidebarMenu from './SideMenu';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, LogOut, User } from 'lucide-react';
@@ -11,13 +11,24 @@ import {
   DropdownMenuTrigger,
 } from '@radix-ui/react-dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
+import useRole from '@/hooks/useRole';
+import useAuth from '@/hooks/useAuth';
+import { useToast } from '@/hooks/use-toast';
 
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const user = {
-    type: 'user', // user type: user, deliveryMan, admin
-    email: 'ak@gmail.com',
+  const { currentUserRole, roleLoading } = useRole();
+  const { user, logOut } = useAuth();
+  const { toast } = useToast();
+
+  const handleLogout = () => {
+    logOut();
+    toast({
+      title: 'Logout Successful',
+      description: 'See you soon!',
+    });
   };
+
   return (
     <>
       <div className="py-16 bg-gray-800"></div>
@@ -43,9 +54,14 @@ const Dashboard = () => {
           </div>
 
           {/* Menu */}
-          <div className="p-4">
-            <SidebarMenu userType={user.type} collapsed={collapsed} />
-          </div>
+          {!roleLoading && (
+            <div className="p-4">
+              <SidebarMenu
+                userType={currentUserRole.role}
+                collapsed={collapsed}
+              />
+            </div>
+          )}
 
           {/* User Profile */}
           <div className="mt-auto flex items-center p-4">
@@ -53,17 +69,15 @@ const Dashboard = () => {
               <DropdownMenuTrigger>
                 <div className="flex items-center gap-2">
                   <Avatar className="w-10 h-10">
-                    <AvatarImage
-                      src="/path-to-user-avatar.jpg"
-                      alt="User Avatar"
-                    />
+                    <AvatarImage src={user?.photoURL} alt="User Avatar" />
                     <AvatarFallback>
-                      {user.email.charAt(0).toUpperCase()}
+                      {user?.email.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   {!collapsed && (
-                    <div>
-                      <p className="text-sm font-medium">{user.email}</p>
+                    <div className=" flex flex-col items-start">
+                      <p className="text-sm font-medium">{user?.displayName}</p>
+                      <p className="text-sm font-medium">{user?.email}</p>
                     </div>
                   )}
                 </div>
@@ -75,12 +89,14 @@ const Dashboard = () => {
                 sideOffset={4}>
                 <DropdownMenuItem className="flex items-center gap-2">
                   <Button variant="ghost">
-                    <User />
-                    My Profile
+                    <Link to={'/dashboard/my-profile'}>
+                      <User />
+                      My Profile
+                    </Link>
                   </Button>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="flex items-center gap-2">
-                  <Button variant="ghost">
+                  <Button variant="ghost" onClick={handleLogout}>
                     <LogOut />
                     Logout
                   </Button>

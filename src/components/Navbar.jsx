@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Bell, PackageOpen } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import useAuth from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 
@@ -68,7 +68,13 @@ const Navbar = () => {
         {/* Navigation Items */}
         <div className="flex items-center space-x-6">
           <Button variant="ghost" className="text-xl font-medium">
-            Home
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? 'text-yellow-500' : 'text-white'
+              }>
+              Home
+            </NavLink>
           </Button>
 
           {/* Notification */}
@@ -108,7 +114,7 @@ const Navbar = () => {
           ) : (
             <Button
               size="lg"
-              className="bg-clr-primary text-clr-primary-text text-lg font-bold"
+              className="bg-clr-primary text-clr-primary-text hover:bg-white text-lg font-bold"
               asChild>
               <Link to={'/login'}>Login</Link>
             </Button>

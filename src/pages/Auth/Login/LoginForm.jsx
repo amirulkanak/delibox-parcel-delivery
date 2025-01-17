@@ -28,7 +28,7 @@ const LoginForm = () => {
           title: 'Login Successful',
           description: `Welcome ${result.user.displayName}`,
         });
-        navigate(state ? state : '/');
+        navigate(state ? state : '/dashboard');
       })
       .catch((error) => {
         setGLoading(false);
@@ -49,7 +49,6 @@ const LoginForm = () => {
     setLoading(true);
     setError('');
     const formData = Object.fromEntries(new FormData(event.target));
-    console.log(formData);
 
     if (!validateEmail(formData.email)) {
       setError('Invalid email. Please check email address.');
@@ -69,7 +68,7 @@ const LoginForm = () => {
           title: 'Login Successful',
           description: `Welcome ${result.user.displayName}`,
         });
-        navigate(state ? state : '/');
+        navigate(state ? state : '/dashboard');
       })
       .catch((error) => {
         setLoading(false);
