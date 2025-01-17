@@ -31,12 +31,11 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="py-16 bg-gray-800"></div>
       <div className="flex">
         {/* Sidebar */}
         <aside
           className={cn(
-            'bg-gray-800 text-white min-h-screen flex flex-col transition-all duration-300',
+            'bg-gray-800 text-white flex flex-col transition-all duration-300',
             collapsed ? 'w-16 items-center' : 'w-64'
           )}>
           {/* Toggle Button */}
@@ -87,10 +86,12 @@ const Dashboard = () => {
                 side="right"
                 align="end"
                 sideOffset={4}>
-                <DropdownMenuItem className="flex items-center gap-2">
+                <DropdownMenuItem>
                   <Button variant="ghost">
-                    <Link to={'/dashboard/my-profile'}>
-                      <User />
+                    <Link
+                      to={'/dashboard/my-profile'}
+                      className="flex items-center gap-2">
+                      <User className="" />
                       My Profile
                     </Link>
                   </Button>
@@ -107,7 +108,7 @@ const Dashboard = () => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-6 bg-gray-100">
+        <main className="flex-1 p-6 min-h-[calc(100vh-var(--navbar-height))] bg-gray-100">
           <Outlet />
         </main>
       </div>

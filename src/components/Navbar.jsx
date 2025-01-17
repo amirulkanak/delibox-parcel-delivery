@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Bell, PackageOpen } from 'lucide-react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import useAuth from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 
@@ -21,14 +21,15 @@ const Navbar = () => {
   const { user, logOut } = useAuth();
   const { toast } = useToast();
   const controls = useAnimation();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
-        controls.start({ y: 5 });
+        controls.start({ y: 8 });
         setScrolled(true);
       } else {
-        controls.start({ y: 5 });
+        controls.start({ y: 16 });
         setScrolled(false);
       }
     };
@@ -47,14 +48,30 @@ const Navbar = () => {
     });
   };
 
+  const isDashboardPath = location.pathname.startsWith('/dashboard');
+
+  const NavbarComponent = isDashboardPath ? 'div' : motion.div;
+
   return (
-    <motion.div
-      initial={{ y: 10 }}
-      animate={controls}
-      transition={{ duration: 0.5 }}
-      className={`fixed w-full ${scrolled ? 'top-1' : 'top-5'}`}
-      style={{ zIndex: 50 }}>
-      <nav className="max-width-wrapper z-50 rounded-[0.5rem] text-white h-[5.6875rem] px-5 bg-gradient-to-r from-clr-primary-text from-75% to-[#636C3F] to-100% flex items-center justify-between">
+    <NavbarComponent
+      {...(!isDashboardPath && {
+        initial: { y: 8 },
+        animate: controls,
+        transition: { duration: 0.5 },
+      })}
+      className={`${
+        isDashboardPath
+          ? 'bg-gradient-to-r from-clr-primary-text from-75% to-[#636C3F] to-100%'
+          : scrolled
+          ? 'fixed w-full top-1'
+          : 'fixed w-full top-5'
+      }`}
+      style={{ zIndex: isDashboardPath ? 'auto' : 50 }}>
+      <nav
+        className={`max-width-wrapper rounded-[0.5rem] text-white px-5 py-3 sm:py-8 flex flex-col sm:flex-row gap-y-2 items-center justify-between ${
+          !isDashboardPath &&
+          'bg-gradient-to-r from-clr-primary-text from-75% to-[#636C3F] to-100%'
+        }`}>
         {/* Logo and Website Name */}
         <div className="flex items-center space-x-4">
           <h1 className="text-4xl font-bold font-outfit bg-gradient-to-r text-transparent bg-clip-text from-white to-yellow-500">
@@ -121,7 +138,7 @@ const Navbar = () => {
           )}
         </div>
       </nav>
-    </motion.div>
+    </NavbarComponent>
   );
 };
 
