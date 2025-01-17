@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react';
 import CountUp from 'react-countup';
 
 const FeaturesSection = () => {
-  // Simulating API Data (Replace with actual API calls)
   const [stats, setStats] = useState({
     parcelsBooked: 0,
     parcelsDelivered: 0,
@@ -17,21 +16,20 @@ const FeaturesSection = () => {
   });
 
   useEffect(() => {
-    // Simulating API call
     setTimeout(() => {
       setStats({
         parcelsBooked: 120345,
         parcelsDelivered: 113678,
         users: 45237,
       });
-    }, 1000); // Simulate network delay
+    }, 1000);
   }, []);
 
   return (
-    <section className="py-20 bg-[#f5f7fa]">
+    <section className="py-28 bg-[#f5f7fa]">
       <div className="container mx-auto px-6">
         {/* Features */}
-        <h2 className="text-5xl font-bold text-center mb-12">
+        <h2 className="text-5xl font-bold text-center mb-20">
           Trusted Experience<span className="text-clr-primary">.</span>
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
