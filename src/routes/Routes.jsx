@@ -6,6 +6,8 @@ import HomePage from '@/pages/Home/HomePage';
 import LoginPage from '@/pages/Auth/Login/LoginPage';
 import ForgetPasswordPage from '@/pages/Auth/ForgetPassword/ForgetPasswordPage';
 import Signup from '@/pages/Auth/Signup/SignupPage';
+import Dashboard from '@/pages/dashboard/Dashboard';
+import BookParcel from '@/pages/dashboard/user/BookParcel';
 
 const routes = createBrowserRouter([
   {
@@ -15,6 +17,16 @@ const routes = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: 'dashboard',
+        element: <Dashboard />,
+        children: [
+          {
+            path: 'book-parcel',
+            element: <BookParcel />,
+          },
+        ],
       },
       {
         path: '/login',
