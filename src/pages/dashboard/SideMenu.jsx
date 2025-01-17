@@ -53,7 +53,7 @@ const SidebarMenu = ({ userType, collapsed }) => {
       },
       {
         name: 'Statistics',
-        route: '/dashboard/statistics',
+        route: '/dashboard/admin-statistics',
         icon: <BarChart size={20} />,
       },
     ],

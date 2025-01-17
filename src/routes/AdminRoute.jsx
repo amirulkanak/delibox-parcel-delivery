@@ -13,7 +13,7 @@ const AdminRoute = ({ children }) => {
     );
   }
 
-  return currentUserRole.role === 'deliveryMan' ? (
+  return currentUserRole.role === 'admin' ? (
     children
   ) : (
     <Navigate to="/dashboard" replace />

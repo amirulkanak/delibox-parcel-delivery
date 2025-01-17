@@ -15,6 +15,11 @@ import MyProfilePage from '@/pages/dashboard/MyProfilePage';
 import DeliveryManRoute from './DeliveryManRoute';
 import DeliveryListPage from '@/pages/dashboard/deliveryMan/DeliveryListPage';
 import MyReviewPage from '@/pages/dashboard/deliveryMan/MyReviewPage';
+import AdminRoute from './AdminRoute';
+import AllParcelPage from '@/pages/dashboard/admin/AllParcelPage';
+import AllUserPage from '@/pages/dashboard/admin/AllUserPage';
+import AllDeliveryMen from '@/pages/dashboard/admin/AllDeliveryMen';
+import AdminStatisticsPage from '@/pages/dashboard/admin/AdminStatisticsPage';
 
 const routes = createBrowserRouter([
   {
@@ -41,6 +46,7 @@ const routes = createBrowserRouter([
               </PrivateRoute>
             ),
           },
+          // User routes
           {
             path: 'book-parcel',
             element: (
@@ -61,6 +67,7 @@ const routes = createBrowserRouter([
               </PrivateRoute>
             ),
           },
+          // Delivery Man routes
           {
             path: 'delivery-list',
             element: (
@@ -78,6 +85,47 @@ const routes = createBrowserRouter([
                 <DeliveryManRoute>
                   <MyReviewPage />
                 </DeliveryManRoute>
+              </PrivateRoute>
+            ),
+          },
+          // Admin routes
+          {
+            path: 'all-parcels',
+            element: (
+              <PrivateRoute>
+                <AdminRoute>
+                  <AllParcelPage />
+                </AdminRoute>
+              </PrivateRoute>
+            ),
+          },
+          {
+            path: 'all-users',
+            element: (
+              <PrivateRoute>
+                <AdminRoute>
+                  <AllUserPage />
+                </AdminRoute>
+              </PrivateRoute>
+            ),
+          },
+          {
+            path: 'all-delivery-men',
+            element: (
+              <PrivateRoute>
+                <AdminRoute>
+                  <AllDeliveryMen />
+                </AdminRoute>
+              </PrivateRoute>
+            ),
+          },
+          {
+            path: 'admin-statistics',
+            element: (
+              <PrivateRoute>
+                <AdminRoute>
+                  <AdminStatisticsPage />
+                </AdminRoute>
               </PrivateRoute>
             ),
           },
