@@ -11,24 +11,30 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
+import { Link } from 'react-router-dom';
+import CancelAlertDialog from './CancelAlertDialog';
+import { useAxiosSecure } from '@/hooks/axios/useAxios';
+import { useToast } from '@/hooks/use-toast';
 
-// Sample data from the backend
-
-const MyParcelTable = ({ parcelsData }) => {
+const MyParcelTable = ({ parcelsData, refetch }) => {
   const [filter, setFilter] = useState('');
-  const [parcels, setParcels] = useState(parcelsData);
+  const axiosSecure = useAxiosSecure();
+  const { toast } = useToast();
 
   // Filtered parcels
-  const filteredParcels = parcels.filter((parcel) =>
+  const filteredParcels = parcelsData.filter((parcel) =>
     filter ? parcel.status.toLowerCase() === filter.toLowerCase() : true
   );
 
-  const handleUpdate = (id) => {
-    console.log(`Updating parcel with ID: ${id}`);
-  };
+  const handleCancel = async (id) => {
+    const { data } = await axiosSecure.patch(`/bookedParcel/cancel/${id}`);
 
-  const handleCancel = (id) => {
-    console.log(`Cancelling parcel with ID: ${id}`);
+    if (data.modifiedCount > 0) {
+      toast({
+        description: 'Parcel booking canceled successfully',
+      });
+      refetch();
+    }
   };
 
   const handleReview = (id) => {
@@ -40,7 +46,7 @@ const MyParcelTable = ({ parcelsData }) => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="container p-6 bg-gray-50 min-h-screen min-w-full overflow-x-auto">
       <h1 className="text-2xl font-bold mb-4">My Parcels</h1>
 
       {/* Filter */}
@@ -74,8 +80,8 @@ const MyParcelTable = ({ parcelsData }) => {
               <TableCell>{parcel.parcelDetails.parcelType}</TableCell>
               <TableCell>{parcel.deliveryDate}</TableCell>
               <TableCell>
-                {parcel.approximateDeliveryDate === 'Not Assigned' ? (
-                  <Badge variant="secondary">Not Assigned</Badge>
+                {parcel.approximateDeliveryDate === 'processing' ? (
+                  <Badge variant="secondary">Processing</Badge>
                 ) : (
                   new Date(parcel.approximateDeliveryDate).toLocaleDateString()
                 )}
@@ -84,8 +90,8 @@ const MyParcelTable = ({ parcelsData }) => {
                 {new Date(parcel.bookedDate).toLocaleDateString()}
               </TableCell>
               <TableCell>
-                {parcel.deliveryMenID === 'Not Assigned' ? (
-                  <Badge variant="secondary">Not Assigned</Badge>
+                {parcel.deliveryMenID === 'processing' ? (
+                  <Badge variant="secondary">Processing</Badge>
                 ) : (
                   parcel.deliveryMenID
                 )}
@@ -94,45 +100,52 @@ const MyParcelTable = ({ parcelsData }) => {
                 <Badge
                   variant={
                     parcel.status === 'pending'
-                      ? 'default'
+                      ? 'outline'
                       : parcel.status === 'delivered'
-                      ? 'success'
-                      : 'warning'
+                      ? 'default'
+                      : 'destructive'
                   }>
-                  {parcel.status}
+                  {/* capitalize */}
+                  {parcel.status.charAt(0).toUpperCase() +
+                    parcel.status.slice(1)}
                 </Badge>
               </TableCell>
-              <TableCell className="space-x-2">
+              <TableCell className="flex gap-2">
                 {/* Update Button */}
-                <Button
-                  disabled={parcel.status !== 'pending'}
-                  onClick={() => handleUpdate(parcel._id)}>
-                  Update
+                <Button disabled={parcel.status !== 'pending'}>
+                  <Link to={`/dashboard/update-parcel/${parcel._id}`}>
+                    Update
+                  </Link>
                 </Button>
 
                 {/* Cancel Button */}
-                <Button
-                  variant="destructive"
-                  disabled={parcel.status !== 'pending'}
-                  onClick={() => handleCancel(parcel._id)}>
-                  Cancel
-                </Button>
+                <CancelAlertDialog onConfirm={() => handleCancel(parcel._id)}>
+                  <Button
+                    variant="destructive"
+                    disabled={parcel.status !== 'pending'}>
+                    Cancel
+                  </Button>
+                </CancelAlertDialog>
 
                 {/* Review Button */}
                 {parcel.status === 'delivered' && (
                   <Button
-                    variant="secondary"
+                    className="bg-clr-primary/80 hover:bg-clr-primary text-clr-primary-text"
+                    variant="outline"
                     onClick={() => handleReview(parcel._id)}>
                     Review
                   </Button>
                 )}
 
                 {/* Pay Button */}
-                <Button
-                  onClick={() => handlePay(parcel._id)}
-                  className="bg-clr-primary/80 hover:bg-clr-primary text-clr-primary-text">
-                  Pay
-                </Button>
+                {parcel.status === 'delivered' || (
+                  <Button
+                    disabled={parcel.status === 'canceled'}
+                    onClick={() => handlePay(parcel._id)}
+                    className="bg-clr-primary/80 hover:bg-clr-primary text-clr-primary-text">
+                    Pay
+                  </Button>
+                )}
               </TableCell>
             </TableRow>
           ))}

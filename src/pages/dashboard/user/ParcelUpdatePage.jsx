@@ -1,24 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import useAuth from '@/hooks/useAuth';
 import { useAxiosSecure } from '@/hooks/axios/useAxios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
-const BookParcelPage = () => {
+const ParcelUpdatePage = () => {
   const [loadingIcon, setLoadingIcon] = useState(false);
+  const parcelID = useParams().id;
   const axiosSecure = useAxiosSecure();
-  const { user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    name: user.displayName,
-    email: user.email,
+    name: '',
+    email: '',
     phoneNumber: '',
     parcelType: '',
     parcelWeight: '',
@@ -28,10 +29,37 @@ const BookParcelPage = () => {
     deliveryDate: '',
     latitude: '',
     longitude: '',
-    price: 0,
+    price: '',
   });
 
   const [errors, setErrors] = useState({});
+
+  const { data: parcelData, isLoading } = useQuery({
+    queryKey: ['parcel', parcelID],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`/bookedParcel/${parcelID}`);
+      return data;
+    },
+  });
+
+  useEffect(() => {
+    if (parcelData) {
+      setFormData({
+        name: parcelData.user.name,
+        email: parcelData.user.email,
+        phoneNumber: parcelData.user.phone,
+        parcelType: parcelData.parcelDetails.parcelType,
+        parcelWeight: parcelData.parcelDetails.parcelWeight,
+        receiverName: parcelData.receiverDetails.name,
+        receiverPhoneNumber: parcelData.receiverDetails.phone,
+        deliveryAddress: parcelData.receiverDetails.address,
+        deliveryDate: parcelData.deliveryDate,
+        latitude: parcelData.receiverDetails.latitude,
+        longitude: parcelData.receiverDetails.longitude,
+        price: parcelData.price,
+      });
+    }
+  }, [parcelData]);
 
   const calculatePrice = (weight) => {
     if (weight <= 1) return 50;
@@ -82,7 +110,10 @@ const BookParcelPage = () => {
     e.preventDefault();
     setLoadingIcon(true);
 
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      setLoadingIcon(false);
+      return;
+    }
 
     const parcelData = {
       ...formData,
@@ -92,50 +123,43 @@ const BookParcelPage = () => {
     };
 
     try {
-      const { data } = await axiosSecure.post(
-        `/bookedParcel/add/${user.email}`,
+      const { data } = await axiosSecure.patch(
+        `/bookedParcel/update/${parcelID}`,
         parcelData
       );
-
-      if (data.acknowledged) {
+      if (data.modifiedCount > 0) {
+        toast({ description: 'Parcel updated successfully!' });
         setLoadingIcon(false);
-        toast({ description: 'Parcel booked successfully!' });
-        setFormData({
-          name: user.displayName,
-          email: user.email,
-          phoneNumber: '',
-          parcelType: '',
-          parcelWeight: '',
-          receiverName: '',
-          receiverPhoneNumber: '',
-          deliveryAddress: '',
-          deliveryDate: '',
-          latitude: '',
-          longitude: '',
-          price: 0,
-        });
         navigate('/dashboard/my-parcels');
       } else {
-        setLoadingIcon(false);
         toast({
           description: 'Failed to book parcel. Please try again.',
           variant: 'destructive',
         });
+        setLoadingIcon(false);
       }
     } catch (error) {
       console.error('Error booking parcel:', error);
-      setLoadingIcon(false);
       toast({
         description: 'An error occurred. Please try again later.',
         variant: 'destructive',
       });
+      setLoadingIcon(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <LoadingSpinner size={30} />
+      </div>
+    );
+  }
 
   return (
     <Card className="max-w-2xl mx-auto mt-8">
       <CardHeader>
-        <CardTitle className="text-xl text-center">Book a Parcel</CardTitle>
+        <CardTitle className="text-xl text-center">Update Parcel</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -221,7 +245,7 @@ const BookParcelPage = () => {
           <Button
             type="submit"
             className="w-full text-clr-primary-text bg-clr-primary/80 hover:bg-clr-primary">
-            {loadingIcon ? <LoadingSpinner /> : 'Book Parcel'}
+            {loadingIcon ? <LoadingSpinner /> : 'Update Parcel'}
           </Button>
         </form>
       </CardContent>
@@ -229,4 +253,4 @@ const BookParcelPage = () => {
   );
 };
 
-export default BookParcelPage;
+export default ParcelUpdatePage;

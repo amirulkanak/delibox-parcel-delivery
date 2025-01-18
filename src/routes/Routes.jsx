@@ -20,6 +20,7 @@ import AllParcelPage from '@/pages/dashboard/admin/AllParcelPage';
 import AllUserPage from '@/pages/dashboard/admin/AllUserPage';
 import AllDeliveryMen from '@/pages/dashboard/admin/AllDeliveryMen';
 import AdminStatisticsPage from '@/pages/dashboard/admin/AdminStatisticsPage';
+import ParcelUpdatePage from '@/pages/dashboard/user/ParcelUpdatePage';
 
 const routes = createBrowserRouter([
   {
@@ -63,6 +64,16 @@ const routes = createBrowserRouter([
               <PrivateRoute>
                 <UserRoute>
                   <MyParcelPage />
+                </UserRoute>
+              </PrivateRoute>
+            ),
+          },
+          {
+            path: 'update-parcel/:id',
+            element: (
+              <PrivateRoute>
+                <UserRoute>
+                  <ParcelUpdatePage />
                 </UserRoute>
               </PrivateRoute>
             ),
