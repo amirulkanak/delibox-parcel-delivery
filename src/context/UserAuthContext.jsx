@@ -73,6 +73,11 @@ export const UserAuthContextProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+      if (currentUser) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
 
       // Send the user email to the backend to register the user and get the role
       if (currentUser?.email) {
@@ -96,14 +101,6 @@ export const UserAuthContextProvider = ({ children }) => {
         localStorage.removeItem('delibox-token');
         setLoading(false);
       }
-
-      if (currentUser) {
-        setIsAuthenticated(true);
-      } else {
-        setIsAuthenticated(false);
-      }
-
-      setLoading(false);
     });
 
     return unsubscribe;

@@ -5,16 +5,17 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-
-const user = {
-  name: 'John Doe',
-  email: 'ak@gmail.com',
-};
+import useAuth from '@/hooks/useAuth';
+import { useAxiosSecure } from '@/hooks/axios/useAxios';
+import { useNavigate } from 'react-router-dom';
 
 const BookParcelPage = () => {
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: user.name,
+    name: user.displayName,
     email: user.email,
     phoneNumber: '',
     parcelType: '',
@@ -85,20 +86,18 @@ const BookParcelPage = () => {
       parcelWeight: parseFloat(formData.parcelWeight),
       latitude: parseFloat(formData.latitude),
       longitude: parseFloat(formData.longitude),
-      status: 'pending',
     };
 
     try {
-      const response = await fetch('/api/parcels', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(parcelData),
-      });
+      const { data } = await axiosSecure.post(
+        `/bookedParcel/add/${user.email}`,
+        parcelData
+      );
 
-      if (response.ok) {
+      if (data.acknowledged) {
         toast({ description: 'Parcel booked successfully!' });
         setFormData({
-          name: user.name,
+          name: user.displayName,
           email: user.email,
           phoneNumber: '',
           parcelType: '',
@@ -111,6 +110,7 @@ const BookParcelPage = () => {
           longitude: '',
           price: 0,
         });
+        navigate('/dashboard/my-parcels');
       } else {
         toast({
           description: 'Failed to book parcel. Please try again.',
@@ -129,7 +129,7 @@ const BookParcelPage = () => {
   return (
     <Card className="max-w-2xl mx-auto mt-8">
       <CardHeader>
-        <CardTitle className="text-xl">Book a Parcel</CardTitle>
+        <CardTitle className="text-xl text-center">Book a Parcel</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -212,7 +212,9 @@ const BookParcelPage = () => {
           </div>
 
           {/* Submit Button */}
-          <Button type="submit" className="w-full">
+          <Button
+            type="submit"
+            className="w-full text-clr-primary-text bg-clr-primary/80 hover:bg-clr-primary">
             Book Parcel
           </Button>
         </form>
