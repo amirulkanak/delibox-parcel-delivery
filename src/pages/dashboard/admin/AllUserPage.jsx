@@ -13,10 +13,12 @@ import { Badge } from '@/components/ui/badge';
 import { useAxiosSecure } from '@/hooks/axios/useAxios';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import { useToast } from '@/hooks/use-toast';
 
 const AllUserPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const axiosSecure = useAxiosSecure();
+  const { toast } = useToast();
 
   const {
     data: allUser,
@@ -45,14 +47,29 @@ const AllUserPage = () => {
   );
   const totalPages = Math.ceil(allUser.length / usersPerPage);
 
-  const handleMakeDeliveryMan = (userId) => {
-    console.log(`Making user ${userId} a delivery man`);
-    // Perform API call or state update here
-  };
+  const handleMakeDeliveryMan = async (userId) => {
+    const { data } = await axiosSecure.patch(`/users/update/role/${userId}`, {
+      role: 'deliveryMan',
+    });
 
-  const handleMakeAdmin = (userId) => {
-    console.log(`Making user ${userId} an admin`);
-    // Perform API call or state update here
+    if (data.modifiedCount > 0) {
+      toast({
+        description: 'User role updated successfully',
+      });
+      refetch();
+    }
+  };
+  const handleMakeAdmin = async (userId) => {
+    const { data } = await axiosSecure.patch(`/users/update/role/${userId}`, {
+      role: 'admin',
+    });
+
+    if (data.modifiedCount > 0) {
+      toast({
+        description: 'User role updated successfully',
+      });
+      refetch();
+    }
   };
 
   return (
@@ -80,7 +97,16 @@ const AllUserPage = () => {
                     <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-medium">{user.name}</p>
+                    <p className="font-medium">
+                      {user.name}
+                      <Badge variant="custom" size="sm" className="ml-2">
+                        {user.role === 'admin'
+                          ? 'Admin'
+                          : user.role === 'deliveryMan'
+                          ? 'Delivery Man'
+                          : 'User'}
+                      </Badge>
+                    </p>
                     <p className="text-sm text-gray-500">{user.email}</p>
                   </div>
                 </div>
