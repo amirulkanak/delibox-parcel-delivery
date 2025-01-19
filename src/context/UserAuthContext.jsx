@@ -22,9 +22,6 @@ export const UserAuthContextProvider = ({ children }) => {
   // Create a state to store the user
   const [user, setUser] = useState(null);
 
-  // Create a state for checking if the user is authenticated
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
   // Create a state to store the loading state
   const [loading, setLoading] = useState(true);
 
@@ -72,35 +69,31 @@ export const UserAuthContextProvider = ({ children }) => {
   // Listen for auth state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        setIsAuthenticated(true);
-      } else {
-        setIsAuthenticated(false);
-      }
-
-      // Send the user email to the backend to register the user and get the role
       if (currentUser?.email) {
-        await axiosPublicRef.current.post(`/users/${currentUser.email}`, {
-          name: currentUser.displayName,
-          email: currentUser.email,
-          photo: currentUser.photoURL,
-        });
-      }
+        setUser(currentUser);
 
-      // Jwt Token
-      if (currentUser?.email) {
-        const user = { email: currentUser.email };
-        await axiosPublicRef.current.post('/jwt/create', user).then((res) => {
-          if (res.data.token) {
-            localStorage.setItem('delibox-token', res.data.token);
-            setLoading(false);
-          }
-        });
+        // Send the user email to the backend to register the user
+        setTimeout(async () => {
+          await axiosPublicRef.current.post(`/users/${currentUser.email}`, {
+            name: currentUser.displayName,
+            email: currentUser.email,
+            photo: currentUser.photoURL,
+          });
+        }, 1000);
+
+        const userEmail = { email: currentUser.email };
+        await axiosPublicRef.current
+          .post('/jwt/create', userEmail)
+          .then((res) => {
+            if (res.data.token) {
+              localStorage.setItem('delibox-token', res.data.token);
+            }
+          });
       } else {
+        setUser(currentUser);
         localStorage.removeItem('delibox-token');
-        setLoading(false);
       }
+      setLoading(false);
     });
 
     return unsubscribe;
@@ -113,7 +106,6 @@ export const UserAuthContextProvider = ({ children }) => {
     logIn,
     logOut,
     loginWithGooglePopup,
-    isAuthenticated,
     loading,
     sendPasswordResetEmailToUser,
     updateUserProfile,

@@ -3,7 +3,7 @@ import useAuth from '../hooks/useAuth';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
 const PrivateRoute = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
+  const { user, loading } = useAuth();
   const { pathname } = useLocation();
 
   if (loading) {
@@ -14,11 +14,7 @@ const PrivateRoute = ({ children }) => {
     );
   }
 
-  return isAuthenticated ? (
-    children
-  ) : (
-    <Navigate to="/login" state={pathname} replace />
-  );
+  return user ? children : <Navigate to="/login" state={pathname} replace />;
 };
 
 export default PrivateRoute;
