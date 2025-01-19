@@ -80,7 +80,9 @@ const MyParcelTable = ({ parcelsData, refetch }) => {
               <TableCell>{parcel.parcelDetails.parcelType}</TableCell>
               <TableCell>{parcel.deliveryDate}</TableCell>
               <TableCell>
-                {parcel.approximateDeliveryDate === 'processing' ? (
+                {parcel.status === 'cancelled' ? (
+                  '- - -'
+                ) : parcel.approximateDeliveryDate === 'processing' ? (
                   <Badge variant="secondary">Processing</Badge>
                 ) : (
                   new Date(parcel.approximateDeliveryDate).toLocaleDateString()
@@ -90,7 +92,9 @@ const MyParcelTable = ({ parcelsData, refetch }) => {
                 {new Date(parcel.bookedDate).toLocaleDateString()}
               </TableCell>
               <TableCell>
-                {parcel.deliveryMenID === 'processing' ? (
+                {parcel.status === 'cancelled' ? (
+                  '- - -'
+                ) : parcel.deliveryMenID === 'processing' ? (
                   <Badge variant="secondary">Processing</Badge>
                 ) : (
                   parcel.deliveryMenID
