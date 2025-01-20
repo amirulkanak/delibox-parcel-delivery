@@ -13,7 +13,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import useRole from '@/hooks/useRole';
 import useAuth from '@/hooks/useAuth';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/useToast';
 
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);

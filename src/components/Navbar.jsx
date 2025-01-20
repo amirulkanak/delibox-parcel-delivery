@@ -14,7 +14,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Bell, PackageOpen } from 'lucide-react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import useAuth from '@/hooks/useAuth';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/useToast';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);

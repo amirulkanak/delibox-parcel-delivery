@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/useToast';
 import useAuth from '@/hooks/useAuth';
 import { useAxiosSecure } from '@/hooks/axios/useAxios';
 import { useNavigate } from 'react-router-dom';

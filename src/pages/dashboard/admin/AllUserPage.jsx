@@ -13,7 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { useAxiosSecure } from '@/hooks/axios/useAxios';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/useToast';
 
 const AllUserPage = () => {
   const [currentPage, setCurrentPage] = useState(1);

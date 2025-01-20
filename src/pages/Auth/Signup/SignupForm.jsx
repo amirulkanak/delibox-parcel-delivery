@@ -8,7 +8,7 @@ import { useState } from 'react';
 import useAuth from '@/hooks/useAuth';
 import { validateEmail, validatePasswordForSignUp } from '@/utils/validator';
 import uploadImage from '@/utils/uploadImage';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/useToast';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
 const SignupForm = () => {

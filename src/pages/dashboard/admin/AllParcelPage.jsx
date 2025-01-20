@@ -27,6 +27,8 @@ import {
 import { useAxiosSecure } from '@/hooks/axios/useAxios';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/useToast';
 
 const AllParcelPage = () => {
   const [searchRange, setSearchRange] = useState({ from: '', to: '' });
@@ -34,6 +36,7 @@ const AllParcelPage = () => {
   const [selectedDeliveryMan, setSelectedDeliveryMan] = useState('');
   const [approximateDeliveryDate, setApproximateDeliveryDate] = useState('');
   const axiosSecure = useAxiosSecure();
+  const { toast } = useToast();
 
   const {
     data: allParcelAndDeliveryMen,
@@ -81,12 +84,22 @@ const AllParcelPage = () => {
   };
 
   // Handle assigning a delivery man and date
-  const handleAssign = (parcelId) => {
-    console.log('Assigning:', {
-      parcelId,
-      deliveryManID: selectedDeliveryMan,
-      approximateDeliveryDate,
-    });
+  const handleAssign = async (parcelId) => {
+    const { data } = await axiosSecure.patch(
+      `/bookedParcel/assign/${parcelId}`,
+      {
+        status: 'On the way',
+        deliveryManID: selectedDeliveryMan,
+        approximateDeliveryDate,
+      }
+    );
+    if (data.modifiedCount > 0) {
+      refetch();
+      toast({
+        title: 'Success',
+        description: 'Delivery Assigned Successfully',
+      });
+    }
   };
 
   return (
@@ -94,7 +107,7 @@ const AllParcelPage = () => {
       <h1 className="text-2xl font-bold mb-4">All Parcels</h1>
 
       {/* Search System */}
-      <div className="flex items-center gap-4 mb-6">
+      <div className="flex items-end gap-4 mb-6">
         <div>
           <Label>From</Label>
           <Input
@@ -143,7 +156,11 @@ const AllParcelPage = () => {
                 {new Date(parcel.deliveryDate).toLocaleDateString()}
               </TableCell>
               <TableCell>{parcel.price} Tk</TableCell>
-              <TableCell>{parcel.status}</TableCell>
+              <TableCell>
+                <Badge variant="secondary" className="capitalize">
+                  {parcel.status}
+                </Badge>
+              </TableCell>
               <TableCell>
                 {/* Manage Button with Modal */}
                 <Dialog>
