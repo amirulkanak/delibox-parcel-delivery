@@ -33,8 +33,8 @@ import { useToast } from '@/hooks/useToast';
 const AllParcelPage = () => {
   const [searchRange, setSearchRange] = useState({ from: '', to: '' });
   const [filteredParcels, setFilteredParcels] = useState([]);
-  const [selectedDeliveryMan, setSelectedDeliveryMan] = useState('');
-  const [approximateDeliveryDate, setApproximateDeliveryDate] = useState('');
+  const [selectedDeliveryMan, setSelectedDeliveryMan] = useState(null);
+  const [approximateDeliveryDate, setApproximateDeliveryDate] = useState(null);
   const axiosSecure = useAxiosSecure();
   const { toast } = useToast();
 
@@ -85,6 +85,14 @@ const AllParcelPage = () => {
 
   // Handle assigning a delivery man and date
   const handleAssign = async (parcelId) => {
+    if (!selectedDeliveryMan || !approximateDeliveryDate) {
+      toast({
+        title: 'Error',
+        description: 'Please select a delivery date and delivery Man',
+      });
+      return;
+    }
+
     const { data } = await axiosSecure.patch(
       `/bookedParcel/assign/${parcelId}`,
       {
@@ -99,6 +107,8 @@ const AllParcelPage = () => {
         title: 'Success',
         description: 'Delivery Assigned Successfully',
       });
+      setApproximateDeliveryDate(null);
+      setSelectedDeliveryMan(null);
     }
   };
 
