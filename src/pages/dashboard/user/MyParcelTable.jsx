@@ -78,7 +78,9 @@ const MyParcelTable = ({ parcelsData, refetch }) => {
           {filteredParcels.map((parcel) => (
             <TableRow key={parcel._id}>
               <TableCell>{parcel.parcelDetails.parcelType}</TableCell>
-              <TableCell>{parcel.deliveryDate}</TableCell>
+              <TableCell>
+                {new Date(parcel.deliveryDate).toLocaleDateString()}
+              </TableCell>
               <TableCell>
                 {parcel.status === 'cancelled' ? (
                   '- - -'

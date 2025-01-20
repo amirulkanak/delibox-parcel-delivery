@@ -15,7 +15,7 @@ const MyParcelPage = () => {
   } = useQuery({
     queryKey: ['parcels'],
     queryFn: async () => {
-      const { data } = await axiosSecure.get('/bookedParcel/all');
+      const { data } = await axiosSecure.get('/bookedParcel/user-parcels');
       return data;
     },
   });
