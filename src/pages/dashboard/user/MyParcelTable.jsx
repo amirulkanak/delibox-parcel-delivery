@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
-import CancelAlertDialog from './CancelAlertDialog';
+import CancelAlertDialog from '../CancelAlertDialog';
 import { useAxiosSecure } from '@/hooks/axios/useAxios';
 import { useToast } from '@/hooks/useToast';
 

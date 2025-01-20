@@ -21,6 +21,14 @@ const Dashboard = () => {
   const { user, logOut } = useAuth();
   const { toast } = useToast();
 
+  // Dynamically change the document title based on the user role
+  document.title = `${
+    currentUserRole?.role === 'deliveryMan'
+      ? 'Delivery Man'
+      : currentUserRole?.role.charAt(0).toUpperCase() +
+        currentUserRole?.role.slice(1)
+  }'s dashboard | Delibox`;
+
   const handleLogout = () => {
     logOut();
     toast({
