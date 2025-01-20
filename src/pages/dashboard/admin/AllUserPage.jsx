@@ -27,7 +27,7 @@ const AllUserPage = () => {
   } = useQuery({
     queryKey: ['allUser'],
     queryFn: async () => {
-      const { data } = await axiosSecure.get('/users/all');
+      const { data } = await axiosSecure.get('/users/user/all');
       return data;
     },
   });
@@ -97,7 +97,7 @@ const AllUserPage = () => {
                     <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-medium">
+                    <div className="font-medium">
                       {user.name}
                       <Badge variant="custom" size="sm" className="ml-2">
                         {user.role === 'admin'
@@ -106,7 +106,7 @@ const AllUserPage = () => {
                           ? 'Delivery Man'
                           : 'User'}
                       </Badge>
-                    </p>
+                    </div>
                     <p className="text-sm text-gray-500">{user.email}</p>
                   </div>
                 </div>
