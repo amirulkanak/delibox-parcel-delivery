@@ -98,7 +98,7 @@ const Navbar = () => {
           <Bell size={20} />
 
           {/* User Section */}
-          {user ? (
+          {user?.displayName ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Avatar className="cursor-pointer">

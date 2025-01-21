@@ -10,15 +10,24 @@ import { validateEmail, validatePasswordForSignUp } from '@/utils/validator';
 import uploadImage from '@/utils/uploadImage';
 import { useToast } from '@/hooks/useToast';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { useAxiosPublic } from '@/hooks/axios/useAxios';
 
 const SignupForm = () => {
-  const [slectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [gloading, setGLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
   const { signUp, updateUserProfile, loginWithGooglePopup } = useAuth();
+  const axiosPublic = useAxiosPublic();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -47,14 +56,14 @@ const SignupForm = () => {
       return;
     }
 
-    if (!slectedImage) {
+    if (!selectedImage) {
       setError('Profile photo is required.');
       setLoading(false);
       return;
     }
 
     try {
-      const imageUrl = await uploadImage(slectedImage);
+      const imageUrl = await uploadImage(selectedImage);
       const { user } = await signUp(formData.email, formData.password);
 
       if (!user) {
@@ -71,6 +80,14 @@ const SignupForm = () => {
         title: 'Account created successfully.',
         description: 'You are now logged in.',
       });
+
+      await axiosPublic.post(`/users/${user.email}`, {
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+        role: formData.role,
+      });
+
       navigate('/dashboard');
     } catch (error) {
       toast({
@@ -160,6 +177,18 @@ const SignupForm = () => {
                   <Label htmlFor="password">Password</Label>
                 </div>
                 <Input id="password" name="password" type="password" required />
+              </div>
+
+              <div>
+                <Select name="role" required>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select Role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="user">User</SelectItem>
+                    <SelectItem value="deliveryMan">Delivery Man</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* error message */}

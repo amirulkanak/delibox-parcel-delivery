@@ -74,11 +74,14 @@ export const UserAuthContextProvider = ({ children }) => {
 
         // Send the user email to the backend to register the user
         setTimeout(async () => {
-          await axiosPublicRef.current.post(`/users/${currentUser.email}`, {
-            name: currentUser.displayName,
-            email: currentUser.email,
-            photo: currentUser.photoURL,
-          });
+          if (currentUser.providerData[0].providerId === 'google.com') {
+            await axiosPublicRef.current.post(`/users/${currentUser.email}`, {
+              name: currentUser.displayName,
+              email: currentUser.email,
+              photo: currentUser.photoURL,
+              role: 'user',
+            });
+          }
         }, 1000);
 
         const userEmail = { email: currentUser.email };
