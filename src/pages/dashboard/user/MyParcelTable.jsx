@@ -44,8 +44,8 @@ const MyParcelTable = ({ parcelsData, refetch }) => {
     }
   };
 
-  const handleReviewSubmit = (reviewData) => {
-    const { data } = axiosSecure.post('/review/add', reviewData);
+  const handleReviewSubmit = async (reviewData) => {
+    const { data } = await axiosSecure.post('/review/add', reviewData);
     if (data.acknowledged) {
       toast({
         title: 'Success',
@@ -54,8 +54,11 @@ const MyParcelTable = ({ parcelsData, refetch }) => {
     }
   };
 
-  const handlePay = (id) => {
-    console.log(`Paying for parcel with ID: ${id}`);
+  const handlePay = () => {
+    toast({
+      title: 'Payment',
+      description: 'Payment feature is not available yet',
+    });
   };
 
   return (
@@ -161,7 +164,7 @@ const MyParcelTable = ({ parcelsData, refetch }) => {
                 {parcel.status === 'delivered' || (
                   <Button
                     disabled={parcel.status === 'canceled'}
-                    onClick={() => handlePay(parcel._id)}
+                    onClick={handlePay}
                     className="bg-clr-primary/80 hover:bg-clr-primary text-clr-primary-text">
                     Pay
                   </Button>

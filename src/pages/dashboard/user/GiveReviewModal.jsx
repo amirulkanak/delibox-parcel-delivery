@@ -1,18 +1,17 @@
-import { useState } from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/useToast';
+import { useState } from 'react';
 
 const GiveReviewModal = ({ user, deliveryManId, onSubmit }) => {
   const [rating, setRating] = useState('');
@@ -35,6 +34,8 @@ const GiveReviewModal = ({ user, deliveryManId, onSubmit }) => {
       feedback,
     };
     onSubmit(reviewData);
+    setFeedback('');
+    setRating('');
   };
 
   return (
@@ -96,11 +97,10 @@ const GiveReviewModal = ({ user, deliveryManId, onSubmit }) => {
           </div>
 
           {/* Submit Button */}
-          <DialogClose asChild>
-            <Button type="submit" variant="primary" className="w-full">
-              Submit Review
-            </Button>
-          </DialogClose>
+
+          <Button type="submit" className="w-full">
+            Submit Review
+          </Button>
         </form>
       </DialogContent>
     </Dialog>
