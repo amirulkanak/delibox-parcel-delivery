@@ -61,7 +61,9 @@ const DeliveryListPage = () => {
   };
 
   const handleDeliver = async (id) => {
-    const { data } = await axiosSecure.patch(`/bookedParcel/deliver/${id}`);
+    const { data } = await axiosSecure.patch(`/bookedParcel/deliver/${id}`, {
+      userId: currentUserRole.userId,
+    });
 
     if (data.modifiedCount > 0) {
       toast({
