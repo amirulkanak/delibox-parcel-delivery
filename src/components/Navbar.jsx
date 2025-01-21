@@ -84,7 +84,9 @@ const Navbar = () => {
 
         {/* Navigation Items */}
         <div className="flex items-center space-x-6">
-          <Button variant="ghost" className="text-xl font-medium">
+          <Button
+            variant="ghost"
+            className="text-xl font-medium hover:bg-slate-400">
             <NavLink
               to="/"
               className={({ isActive }) =>

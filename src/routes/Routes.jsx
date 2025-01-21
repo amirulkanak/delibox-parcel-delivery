@@ -142,6 +142,16 @@ const routes = createBrowserRouter([
               </PrivateRoute>
             ),
           },
+          {
+            path: 'statistics',
+            element: (
+              <PrivateRoute>
+                <AdminRoute>
+                  <AdminStatisticsPage />
+                </AdminRoute>
+              </PrivateRoute>
+            ),
+          },
         ],
       },
       {

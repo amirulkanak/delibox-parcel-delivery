@@ -64,7 +64,13 @@ const AllDeliveryMen = () => {
                   </div>
                 </div>
               </TableCell>
-              <TableCell>{man.phone}</TableCell>
+              <TableCell>
+                {man.phone === 'not available' ? (
+                  <Badge variant="secondary">Not Available</Badge>
+                ) : (
+                  man.phone
+                )}
+              </TableCell>
               <TableCell>
                 <Badge variant="secondary">{man.deliveredParcel}</Badge>
               </TableCell>

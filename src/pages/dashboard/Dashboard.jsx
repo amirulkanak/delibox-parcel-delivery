@@ -12,7 +12,7 @@ import {
 } from '@radix-ui/react-dropdown-menu';
 import { ChevronLeft, ChevronRight, LogOut } from 'lucide-react';
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import SidebarMenu from './SideMenu';
 
 const Dashboard = () => {
@@ -20,7 +20,7 @@ const Dashboard = () => {
   const { currentUserRole, roleLoading } = useRole();
   const { user, logOut } = useAuth();
   const { toast } = useToast();
-
+  const location = useLocation();
   // Dynamically change the document title based on the user role
   document.title = `${
     currentUserRole?.role === 'deliveryMan'
@@ -107,6 +107,13 @@ const Dashboard = () => {
 
         {/* Main Content */}
         <main className="flex-1 p-6 min-h-[calc(100vh-var(--navbar-height))] bg-gray-100">
+          {currentUserRole?.role !== 'admin' &&
+            location.pathname === '/dashboard' && (
+              <div className="mt-4 flex flex-col items-center justify-center min-h-[50svh] gap-4">
+                <h2 className="text-center text-2xl">Welcome to</h2>
+                <h2 className="text-xl font-bold">Delibox Dashboard</h2>
+              </div>
+            )}
           <Outlet />
         </main>
       </div>

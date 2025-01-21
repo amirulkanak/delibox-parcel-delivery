@@ -168,7 +168,11 @@ const AllParcelPage = () => {
               </TableCell>
               <TableCell>{parcel.price} Tk</TableCell>
               <TableCell>
-                <Badge variant="secondary" className="capitalize">
+                <Badge
+                  variant={
+                    parcel.status === 'cancelled' ? 'destructive' : 'secondary'
+                  }
+                  className="capitalize">
                   {parcel.status}
                 </Badge>
               </TableCell>
