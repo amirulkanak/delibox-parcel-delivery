@@ -131,7 +131,7 @@ const routes = createBrowserRouter([
             ),
           },
           {
-            path: 'admin-statistics',
+            index: true,
             element: (
               <PrivateRoute>
                 <AdminRoute>
