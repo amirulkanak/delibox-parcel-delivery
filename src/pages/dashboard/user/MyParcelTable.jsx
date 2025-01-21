@@ -15,11 +15,18 @@ import { Link } from 'react-router-dom';
 import CancelAlertDialog from '../CancelAlertDialog';
 import { useAxiosSecure } from '@/hooks/axios/useAxios';
 import { useToast } from '@/hooks/useToast';
+import GiveReviewModal from './GiveReviewModal';
+import useAuth from '@/hooks/useAuth';
 
 const MyParcelTable = ({ parcelsData, refetch }) => {
   const [filter, setFilter] = useState('');
   const axiosSecure = useAxiosSecure();
   const { toast } = useToast();
+  const { user } = useAuth();
+  const currentUser = {
+    name: user?.displayName,
+    photo: user?.photoURL,
+  };
 
   // Filtered parcels
   const filteredParcels = parcelsData.filter((parcel) =>
@@ -37,8 +44,14 @@ const MyParcelTable = ({ parcelsData, refetch }) => {
     }
   };
 
-  const handleReview = (id) => {
-    console.log(`Reviewing parcel with ID: ${id}`);
+  const handleReviewSubmit = (reviewData) => {
+    const { data } = axiosSecure.post('/review/add', reviewData);
+    if (data.acknowledged) {
+      toast({
+        title: 'Success',
+        description: 'Review submitted successfully',
+      });
+    }
   };
 
   const handlePay = (id) => {
@@ -137,12 +150,11 @@ const MyParcelTable = ({ parcelsData, refetch }) => {
 
                 {/* Review Button */}
                 {parcel.status === 'delivered' && (
-                  <Button
-                    className="bg-clr-primary/80 hover:bg-clr-primary text-clr-primary-text"
-                    variant="outline"
-                    onClick={() => handleReview(parcel._id)}>
-                    Review
-                  </Button>
+                  <GiveReviewModal
+                    user={currentUser}
+                    deliveryManId={parcel.deliveryMenID}
+                    onSubmit={handleReviewSubmit}
+                  />
                 )}
 
                 {/* Pay Button */}

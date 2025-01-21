@@ -29,6 +29,7 @@ import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/useToast';
+import { DialogClose } from '@radix-ui/react-dialog';
 
 const AllParcelPage = () => {
   const [searchRange, setSearchRange] = useState({ from: '', to: '' });
@@ -217,9 +218,11 @@ const AllParcelPage = () => {
                       </div>
 
                       {/* Assign Button */}
-                      <Button onClick={() => handleAssign(parcel._id)}>
-                        Assign
-                      </Button>
+                      <DialogClose asChild>
+                        <Button onClick={() => handleAssign(parcel._id)}>
+                          Assign
+                        </Button>
+                      </DialogClose>
                     </div>
                   </DialogContent>
                 </Dialog>
