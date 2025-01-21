@@ -1,32 +1,34 @@
 import {
   Card,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from '@/components/ui/card';
 import { MessagesSquare, ShieldCheck, Truck } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import CountUp from 'react-countup';
+import LoadingSpinner from './LoadingSpinner';
+import { useAxiosPublic } from '@/hooks/axios/useAxios';
+import { useQuery } from '@tanstack/react-query';
 
 const FeaturesSection = () => {
-  const [stats, setStats] = useState({
-    parcelsBooked: 0,
-    parcelsDelivered: 0,
-    users: 0,
+  const axiosPublic = useAxiosPublic();
+
+  const { data: totalData, isLoading } = useQuery({
+    queryKey: ['totalData'],
+    queryFn: async () => {
+      const { data } = await axiosPublic.get('/user-parcel/total');
+      return data;
+    },
   });
 
-  useEffect(() => {
-    setTimeout(() => {
-      setStats({
-        parcelsBooked: 120345,
-        parcelsDelivered: 113678,
-        users: 45237,
-      });
-    }, 1000);
-  }, []);
-
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center">
+        <LoadingSpinner size={30} />
+      </div>
+    );
   return (
-    <section className="py-28 bg-[#f5f7fa]">
+    <section className="pt-28 pb-14 bg-[#f5f7fa]">
       <div className="container mx-auto px-6">
         {/* Features */}
         <h2 className="text-5xl font-bold text-center mb-20">
@@ -90,7 +92,7 @@ const FeaturesSection = () => {
               Total Parcels Booked
             </CardTitle>
             <p className="text-4xl font-extrabold text-indigo-500">
-              <CountUp end={stats.parcelsBooked} duration={2} />
+              <CountUp end={totalData.totalBookedParcel} duration={2} />
             </p>
           </Card>
 
@@ -100,7 +102,7 @@ const FeaturesSection = () => {
               Total Parcels Delivered
             </CardTitle>
             <p className="text-4xl font-extrabold text-green-500">
-              <CountUp end={stats.parcelsDelivered} duration={2} />
+              <CountUp end={totalData.totalDeliveredParcel} duration={2} />
             </p>
           </Card>
 
@@ -108,7 +110,7 @@ const FeaturesSection = () => {
           <Card className="shadow-md hover:shadow-lg hover:bg-clr-primary transition duration-300 text-center p-6">
             <CardTitle className="text-2xl font-bold">Total Users</CardTitle>
             <p className="text-4xl font-extrabold text-yellow-500">
-              <CountUp end={stats.users} duration={2} />
+              <CountUp end={totalData.totalUser} duration={2} />
             </p>
           </Card>
         </div>
