@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
-import SidebarMenu from './SideMenu';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, LogOut, User } from 'lucide-react';
+import useAuth from '@/hooks/useAuth';
+import useRole from '@/hooks/useRole';
+import { useToast } from '@/hooks/useToast';
 import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@radix-ui/react-dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
-import useRole from '@/hooks/useRole';
-import useAuth from '@/hooks/useAuth';
-import { useToast } from '@/hooks/useToast';
+import { ChevronLeft, ChevronRight, LogOut } from 'lucide-react';
+import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import SidebarMenu from './SideMenu';
 
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -94,16 +94,6 @@ const Dashboard = () => {
                 side="right"
                 align="end"
                 sideOffset={4}>
-                <DropdownMenuItem>
-                  <Button variant="ghost">
-                    <Link
-                      to={'/dashboard/my-profile'}
-                      className="flex items-center gap-2">
-                      <User className="" />
-                      My Profile
-                    </Link>
-                  </Button>
-                </DropdownMenuItem>
                 <DropdownMenuItem className="flex items-center gap-2">
                   <Button variant="ghost" onClick={handleLogout}>
                     <LogOut />

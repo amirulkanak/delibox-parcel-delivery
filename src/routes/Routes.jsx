@@ -11,7 +11,7 @@ import BookParcelPage from '@/pages/dashboard/user/BookParcelPage';
 import PrivateRoute from './PrivateRoute';
 import UserRoute from './UserRoute';
 import MyParcelPage from './../pages/dashboard/user/MyParcelPage';
-import MyProfilePage from '@/pages/dashboard/MyProfilePage';
+import MyProfilePage from '@/pages/dashboard/user/MyProfilePage';
 import DeliveryManRoute from './DeliveryManRoute';
 import DeliveryListPage from '@/pages/dashboard/deliveryMan/DeliveryListPage';
 import MyReviewPage from '@/pages/dashboard/deliveryMan/MyReviewPage';
@@ -39,15 +39,17 @@ const routes = createBrowserRouter([
           </PrivateRoute>
         ),
         children: [
+          // User routes
           {
             path: 'my-profile',
             element: (
               <PrivateRoute>
-                <MyProfilePage />
+                <UserRoute>
+                  <MyProfilePage />
+                </UserRoute>
               </PrivateRoute>
             ),
           },
-          // User routes
           {
             path: 'book-parcel',
             element: (
