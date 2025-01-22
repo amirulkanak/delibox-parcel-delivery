@@ -42,4 +42,4 @@ Delibox is a parcel delivery management system that allows users to send and rec
   <div align="center">MongoDB - Express - React - Node</div>
 
 ## Live Preview 
-[Delibox Live Site](https://delibox-amirulkanak.web.com/)
+[Delibox Live Site](https://delibox-amirulkanak.web.app/)

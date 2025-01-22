@@ -29,13 +29,12 @@ import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/useToast';
-import { DialogClose } from '@radix-ui/react-dialog';
 
 const AllParcelPage = () => {
   const [searchRange, setSearchRange] = useState({ from: '', to: '' });
   const [filteredParcels, setFilteredParcels] = useState([]);
   const [selectedDeliveryMan, setSelectedDeliveryMan] = useState(null);
-  const [approximateDeliveryDate, setApproximateDeliveryDate] = useState(null);
+  const [approximateDeliveryDate, setApproximateDeliveryDate] = useState('');
   const axiosSecure = useAxiosSecure();
   const { toast } = useToast();
 
@@ -86,7 +85,7 @@ const AllParcelPage = () => {
 
   // Handle assigning a delivery man and date
   const handleAssign = async (parcelId) => {
-    if (!selectedDeliveryMan || !approximateDeliveryDate) {
+    if (!selectedDeliveryMan || approximateDeliveryDate === '') {
       toast({
         title: 'Error',
         description: 'Please select a delivery date and delivery Man',
@@ -222,11 +221,9 @@ const AllParcelPage = () => {
                       </div>
 
                       {/* Assign Button */}
-                      <DialogClose asChild>
-                        <Button onClick={() => handleAssign(parcel._id)}>
-                          Assign
-                        </Button>
-                      </DialogClose>
+                      <Button onClick={() => handleAssign(parcel._id)}>
+                        Assign
+                      </Button>
                     </div>
                   </DialogContent>
                 </Dialog>

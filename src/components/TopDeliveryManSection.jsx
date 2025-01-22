@@ -15,7 +15,6 @@ const TopDeliveryManSection = () => {
     queryKey: ['topDeliveryMen'],
     queryFn: async () => {
       const { data } = await axiosPublic.get('/users/top-delivery-man');
-      console.log(data);
       return data;
     },
   });

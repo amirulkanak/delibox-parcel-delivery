@@ -46,16 +46,19 @@ const MyProfilePage = () => {
       // Update user profile with name and photoURL
       await updateUserProfile(user.displayName, imageUrl);
 
-      const { data } = axiosSecure.patch(`/users/update/photo/${user.email}`, {
-        photo: imageUrl,
-      });
-      console.log(data);
-
-      toast({
-        title: 'Success',
-        description: 'Profile photo updated successfully.',
-      });
-      setLoading(false);
+      const { data } = await axiosSecure.patch(
+        `/users/update/photo/${user.email}`,
+        {
+          photo: imageUrl,
+        }
+      );
+      if (data.modifiedCount > 0) {
+        toast({
+          title: 'Success',
+          description: 'Profile photo updated successfully.',
+        });
+        setLoading(false);
+      }
     } catch (error) {
       setLoading(false);
       toast({

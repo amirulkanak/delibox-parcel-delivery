@@ -75,10 +75,13 @@ const Navbar = () => {
         {/* Logo and Website Name */}
         <div className="flex items-center space-x-4">
           <h1 className="text-4xl font-bold font-outfit bg-gradient-to-r text-transparent bg-clip-text from-white to-yellow-500">
-            Deli
-            <span>
-              b<PackageOpen className="inline text-inherit text-yellow-400" />x
-            </span>
+            <Link to={'/'}>
+              Deli
+              <span>
+                b<PackageOpen className="inline text-inherit text-yellow-400" />
+                x
+              </span>
+            </Link>
           </h1>
         </div>
 
