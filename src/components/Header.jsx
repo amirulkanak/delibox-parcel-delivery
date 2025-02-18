@@ -1,7 +1,30 @@
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/useToast';
+import { useState } from 'react';
 
 const Header = () => {
+  const [search, setSearch] = useState('');
+  const { toast } = useToast();
+  const handleInputChange = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const handleSearch = () => {
+    if (search === '') {
+      toast({
+        title: 'Empty Field',
+        description: 'Please enter a tracking number to search.',
+      });
+      return;
+    }
+    toast({
+      title: 'Search Successful',
+      description: `Tracking number: ${search}, Not found.`,
+    });
+    setSearch('');
+  };
+
   return (
     <section className="relative h-[50.625rem] w-full bg-cover bg-center bg-hero-pattern">
       {/* Overlay */}
@@ -22,10 +45,14 @@ const Header = () => {
         <div className="flex items-center max-w-md w-full bg-white border-none rounded-full overflow-hidden">
           <Input
             type="text"
+            value={search}
+            onChange={handleInputChange}
             placeholder="Track your parcel..."
             className="w-full px-4 py-2 text-gray-800 border-none focus:ring-0"
           />
-          <Button className="bg-clr-primary2 hover:bg-clr-primary hover:text-clr-primary-text text-white px-6 py-2 rounded-none">
+          <Button
+            className="bg-clr-primary2 hover:bg-clr-primary hover:text-clr-primary-text text-white px-6 py-2 rounded-none"
+            onClick={handleSearch}>
             Search
           </Button>
         </div>
