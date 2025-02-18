@@ -54,3 +54,47 @@ Delibox is a parcel delivery management system that allows users to send and rec
 
 ## Live Preview 
 [Delibox Live Site](https://delibox-amirulkanak.web.app/)
+
+## Installation
+1. Clone the repository frontend and backend repository -
+[backend repository](https://github.com/amirulkanak/delibox-parcel-delivery-backend)
+```bash
+# frontend
+git clone https://github.com/amirulkanak/delibox-parcel-delivery.git
+# backend
+git clone https://github.com/amirulkanak/delibox-parcel-delivery-backend.git
+```
+2. Install the dependencies
+```bash
+npm install
+```
+4. Create a .env.local file in the root directory and add the following
+```env
+# Firebase configuration
+ VITE_FIREBASE_API_KEY=your-firebase-api-key
+ VITE_FIREBASE_AUTH_DOMAIN=your-firebase-auth-domain
+ VITE_FIREBASE_PROJECT_ID=your-firebase-project-id
+ VITE_FIREBASE_STORAGE_BUCKET=your-firebase-storage-bucket
+ VITE_FIREBASE_MESSAGING_SENDER_ID=your-firebase-messaging-sender-id
+ VITE_FIREBASE_APP_ID=your-firebase-app-id
+
+# Image upload API from ImgBB
+VITE_IMG_API_URL=https://api.imgbb.com/1/upload
+VITE_IMG_API_KEY=your-imgbb-api-key
+
+# Maps API
+VITE_MAPS_API_KEY=your-maps-api-key
+
+ # Backend API URL
+  VITE_BACKEND_API_URL=your-backend-api-url
+ ```
+3. Run the project
+```bash
+npm run dev
+```
+
+## Contributing
+Contributions are welcome! Feel free to submit issues and pull requests.
+
+## Contact
+for any queries - [coder.kanak@gmail.com](mailto:coder.kanak@gmail.com)
