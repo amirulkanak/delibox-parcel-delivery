@@ -40,5 +40,14 @@ Delibox is a parcel delivery management system that allows users to send and rec
 
   <div align="center">MongoDB - Express - React - Node</div>
 
+## NPM Packages
+- axios
+- firebase
+- react
+- JWT Auth
+- react-router-dom
+- shadcn UI
+- framer motion
+
 ## Live Preview 
 [Delibox Live Site](https://delibox-amirulkanak.web.app/)
