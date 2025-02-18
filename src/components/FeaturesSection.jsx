@@ -28,7 +28,7 @@ const FeaturesSection = () => {
       </div>
     );
   return (
-    <section className="pt-28 pb-14 bg-[#f5f7fa]">
+    <section className="pt-16 pb-14 bg-[#f5f7fa]">
       <div className="container mx-auto px-6">
         {/* Features */}
         <h2 className="text-4xl font-bold text-center mb-20">
