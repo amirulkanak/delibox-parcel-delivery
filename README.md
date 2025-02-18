@@ -49,5 +49,7 @@ Delibox is a parcel delivery management system that allows users to send and rec
 - shadcn UI
 - framer motion
 
+## Desktop View
+<div align="center"><img src="./src/assets//images/desktop-view.png" alt="Desktop View"  width="100%"></div>
 ## Live Preview 
 [Delibox Live Site](https://delibox-amirulkanak.web.app/)
