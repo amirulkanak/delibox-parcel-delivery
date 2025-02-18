@@ -21,6 +21,7 @@ import AllUserPage from '@/pages/dashboard/admin/AllUserPage';
 import AllDeliveryMen from '@/pages/dashboard/admin/AllDeliveryMen';
 import AdminStatisticsPage from '@/pages/dashboard/admin/AdminStatisticsPage';
 import ParcelUpdatePage from '@/pages/dashboard/user/ParcelUpdatePage';
+import AboutUsPage from '@/pages/AboutUs/AboutUsPage';
 
 const routes = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const routes = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: 'about-us',
+        element: <AboutUsPage />,
       },
       {
         path: 'dashboard',

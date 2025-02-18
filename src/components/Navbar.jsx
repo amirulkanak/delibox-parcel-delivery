@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Bell, PackageOpen } from 'lucide-react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
 import useAuth from '@/hooks/useAuth';
 import { useToast } from '@/hooks/useToast';
+import { motion, useAnimation } from 'framer-motion';
+import { PackageOpen } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -98,9 +98,17 @@ const Navbar = () => {
               Home
             </NavLink>
           </Button>
-
-          {/* Notification */}
-          <Bell size={20} />
+          <Button
+            variant="ghost"
+            className="text-xl font-medium hover:bg-slate-400">
+            <NavLink
+              to="/about-us"
+              className={({ isActive }) =>
+                isActive ? 'text-yellow-500' : 'text-white'
+              }>
+              About Us
+            </NavLink>
+          </Button>
 
           {/* User Section */}
           {user?.displayName ? (

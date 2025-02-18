@@ -29,7 +29,6 @@ Delibox is a parcel delivery management system that allows users to send and rec
 - Delivery Man Receive Feedback
 
 ## Technologies
-## Technologies
 ### MERN Stack
 
 <p align="center">
