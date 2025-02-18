@@ -31,8 +31,10 @@ const FeaturesSection = () => {
     <section className="pt-28 pb-14 bg-[#f5f7fa]">
       <div className="container mx-auto px-6">
         {/* Features */}
-        <h2 className="text-5xl font-bold text-center mb-20">
-          Trusted Experience<span className="text-clr-primary">.</span>
+        <h2 className="text-4xl font-bold text-center mb-20">
+          Trusted{' '}
+          <span className="underline underline-offset-4">Experience</span>
+          <span className="text-clr-primary">.</span>
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {/* Feature Card 1 */}

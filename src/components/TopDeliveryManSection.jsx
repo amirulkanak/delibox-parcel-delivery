@@ -30,7 +30,9 @@ const TopDeliveryManSection = () => {
     <section className="pt-20 pb-28 bg-gray-100">
       <div className="container mx-auto px-6">
         <h2 className="text-4xl font-bold text-center mb-20">
-          Top Delivery Men at <span className="text-indigo-500">Delibox</span>
+          Top Delivery Men at{' '}
+          <span className="underline underline-offset-4">Delibox</span>
+          <span className="text-clr-primary">.</span>
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {deliveryMen &&

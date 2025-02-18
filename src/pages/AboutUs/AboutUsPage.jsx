@@ -11,7 +11,7 @@ const AboutUsPage = () => {
         <div className="absolute inset-0 bg-black/50"></div>
         <div className="relative z-10 px-6 max-w-3xl">
           <h1 className="text-4xl font-bold mt-32">About Delibox</h1>
-          <p className="text-lg mt-4">
+          <p className="text-xl mt-4">
             Delivering parcels with speed, security, and reliability. Experience
             next-level parcel management with us.
           </p>
@@ -19,9 +19,12 @@ const AboutUsPage = () => {
       </section>
 
       {/* Company Story */}
-      <section className="py-16 px-6 md:px-12 max-w-5xl mx-auto text-center">
-        <h2 className="text-3xl font-bold text-indigo-600">Our Story</h2>
-        <p className="text-gray-700 mt-4 leading-relaxed">
+      <section className="pt-28 px-6 md:px-12 max-w-5xl mx-auto text-center">
+        <h2 className="text-4xl font-bold">
+          Our <span className="underline underline-offset-4">Story</span>
+          <span className="text-clr-primary">.</span>
+        </h2>
+        <p className="mt-12 text-lg leading-relaxed">
           Founded in 2023, Delibox started with a vision to revolutionize parcel
           delivery by making it{' '}
           <span className="font-bold text-xl text-indigo-400">faster</span>,
@@ -33,32 +36,33 @@ const AboutUsPage = () => {
       </section>
 
       {/* Our Team */}
-      <section className="py-16 px-6 md:px-12 max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-center text-indigo-600">
-          Meet Our Team
+      <section className="py-28 px-6 md:px-12 max-w-6xl mx-auto">
+        <h2 className="text-4xl font-bold text-center">
+          Meet Our <span className="underline underline-offset-4">Team</span>
+          <span className="text-clr-primary">.</span>
         </h2>
-        <p className="text-gray-700 text-center mt-4">
+        <p className="text-center mt-12 text-lg leading-relaxed">
           Our dedicated team ensures that Delibox remains the{' '}
           <span className="font-bold text-indigo-400">best</span> parcel
           management platform.
         </p>
 
         {/* Team Members */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
           {teamMembers.map((member) => (
             <Card
               key={member.name}
               className="shadow-md hover:shadow-lg transition">
               <CardHeader className="flex flex-col items-center">
-                <Avatar className="w-24 h-24 border-4 border-indigo-500 shadow">
+                <Avatar className="w-24 h-24 border-4 border-clr-primary shadow">
                   <AvatarImage src={member.photo} alt={member.name} />
                   <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <CardTitle className="mt-4">{member.name}</CardTitle>
-                <p className="text-sm text-gray-500">{member.role}</p>
+                <p className="text-sm">{member.role}</p>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-700 text-sm">{member.bio}</p>
+                <p className="text-sm text-center">{member.bio}</p>
               </CardContent>
             </Card>
           ))}
