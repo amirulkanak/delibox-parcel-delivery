@@ -1,9 +1,30 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/useToast';
 import { Facebook, Github, Linkedin } from 'lucide-react';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const Footer = () => {
+  const [email, setEmail] = useState('');
+  const { toast } = useToast();
+  const handleInputChange = (e) => {
+    setEmail(e.target.value);
+  };
+  const handleSubscribe = () => {
+    if (email === '') {
+      toast({
+        title: 'Empty Field',
+        description: 'Please enter your email to subscribe.',
+      });
+      return;
+    }
+    toast({
+      title: 'Subscription Successful',
+      description: `You have successfully subscribed with email: ${email}.`,
+    });
+    setEmail('');
+  };
   const location = useLocation();
   const isDashboardPath = location.pathname.startsWith('/dashboard');
   return (
@@ -68,11 +89,14 @@ const Footer = () => {
           <div className="flex items-center space-x-2">
             <Input
               type="email"
+              value={email}
+              onChange={handleInputChange}
               placeholder="Enter your email"
               className="bg-gray-800 text-gray-300 placeholder-gray-500 border-gray-700"
             />
             <Button
               variant="primary"
+              onClick={handleSubscribe}
               className="bg-indigo-500 hover:bg-indigo-600">
               Subscribe
             </Button>
