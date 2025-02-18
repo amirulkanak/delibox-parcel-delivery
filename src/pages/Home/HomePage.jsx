@@ -1,4 +1,5 @@
 import Cta from '@/components/Cta';
+import FAQSection from '@/components/FAQSection';
 import FeaturesSection from '@/components/FeaturesSection';
 import Header from '@/components/Header';
 import ParcelTypeSection from '@/components/ParcelTypeSection';
@@ -13,6 +14,7 @@ const HomePage = () => {
       <FeaturesSection />
       <TopDeliveryManSection />
       <ReviewSection />
+      <FAQSection />
       <Cta />
     </>
   );
